@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using RestSharp;
 using Newtonsoft.Json;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TramitesComunicacion.ViewModels
 {
@@ -49,6 +51,12 @@ namespace TramitesComunicacion.ViewModels
                 {
                     return $"Error: {response.StatusCode} - {response.ErrorMessage}";
                 }
+
+                var resultados = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(response.Content);
+                int countRespuestas = resultados.Count(item => item.ContainsKey("respuesta") && item["respuesta"] != null);
+
+                Console.WriteLine($"Total respuestas devueltas por api: {countRespuestas} de {resultados.Count}");
+
                 return response.Content;
             }
             catch (Exception ex)

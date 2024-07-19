@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
@@ -94,6 +95,7 @@ namespace TramitesComunicacion
             {
                 string rutaArchivo = @"C:\Recamier\data.csv";
                 telefonos = await LeerTelefonosDesdeCsvAsync(rutaArchivo);
+                Console.WriteLine($"Número de registros excel obtenidos: {telefonos.Length}");
             }
             else
             {
@@ -103,7 +105,7 @@ namespace TramitesComunicacion
 
             string resultByPhone = await webServiceClient.ConsultarRnePorTelefonoAsync(telefonos);
             Console.WriteLine("Resultado de la consulta por teléfono:");
-            Console.WriteLine(resultByPhone);
+            //Console.WriteLine(resultByPhone);
 
             ExportarJsonAExcel(resultByPhone, @"C:\Recamier\ResultadosConsulta.xlsx");
 
